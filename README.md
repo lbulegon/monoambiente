@@ -1,7 +1,6 @@
 # node-str
 Sistema Básico Web para operação Jurídica
 
-
 Instalação Node, NPM e VS Code    OK 01 - https://www.youtube.com/watch?v=wDWdqlYxfcw&t=14s
 
 Npm init e instalação dos pacotes OK 02 - https://www.youtube.com/watch?v=b-YTQFdfemk
