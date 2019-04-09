@@ -40,9 +40,9 @@ Validações                           OK 23 - https://www.youtube.com/watch?v=P
 
 Repository Pather                       24 - https://www.youtube.com/watch?v=vKYLSXX7EM8
 
-                                        25 - https://www.youtube.com/watch?v=Sk8oVqV0XEU
-                                        26 - https://www.youtube.com/watch?v=lcXGz1KRYFY
-                                        27 - https://www.youtube.com/watch?v=l5YlVnLDn2A
-......
+25 - https://www.youtube.com/watch?v=Sk8oVqV0XEU
+26 - https://www.youtube.com/watch?v=lcXGz1KRYFY
+27 - https://www.youtube.com/watch?v=l5YlVnLDn2A
+.....
 
 Impressão                               https://www.youtube.com/watch?v=NHiM1phqEIo
