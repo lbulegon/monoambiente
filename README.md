@@ -20,8 +20,8 @@ Iniciando o Debug
 - OK 11 - https://www.youtube.com/watch?v=Bw-ux9fW1y8
 - OK 12 - https://www.youtube.com/watch?v=zMt2gwkK3xs
 - OK 13 - https://www.youtube.com/watch?v=UAp91RCIqoU
--         mlab.com
--         robomongo.com
+-         https://www.mlab.com
+-         https://www.robomongo.com
 - OK 14 - https://www.youtube.com/watch?v=XhEm1PpP2Hs
 - OK 15 - https://www.youtube.com/watch?v=xMG68bH5ohE
 - OK 16 - https://www.youtube.com/watch?v=eiGrfBbvneM
