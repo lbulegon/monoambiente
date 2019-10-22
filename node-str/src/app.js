@@ -12,7 +12,6 @@ mongoose.connect('mongodb://balta:balta123@ds045097.mlab.com:45097/wht_ndstr');
 //Carregar os  models
 const Product = require('./models/product');
 
-
 // Carregar rotas
 const indexRoute = require('./routes/index-route');
 const productRoute = require('./routes/product-route');

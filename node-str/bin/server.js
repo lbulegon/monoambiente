@@ -1,6 +1,8 @@
+
 const app  = require('../src/app')
 const debug = require('debug')('node-str:server');
 const http = require('http');
+
 
 const port =  normalizePort(process.env.PORT || 3000);
 app.set('port',port);
