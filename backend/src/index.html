@@ -1,0 +1,24 @@
+<head>
+	<title>Login</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+	<div class="container">
+		<h1>Login</h1>
+		<form action="/login" method="post">
+			<label for="email"><b>Email</b></label>
+			<input type="text" placeholder="Enter Email" name="email" required class="form-control">
+
+			<label for="password"><b>Password</b></label>
+			<input type="password" placeholder="Enter Password" name="password" required class="form-control">
+
+			<button type="submit" class="btn btn-primary">Login</button>
+		</form>
+		<p>Don't have an account? <a href="/register">Register here</a>.</p>
+	</div>
+
+	<script src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+</body>
