@@ -14,4 +14,6 @@ npm run build
 npm run test
 ```
 
-O GitHub Actions em `.github/workflows/workflow.yml` executa os mesmos comandos em `ubuntu-latest` com Node 16.x.
+O GitHub Actions em `.github/workflows/workflow.yml` executa os mesmos comandos em `ubuntu-latest` com Node 24.x.
+
+
