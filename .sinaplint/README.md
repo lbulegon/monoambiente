@@ -37,3 +37,5 @@ cat .sinaplint/report.json
 O workflow `.github/workflows/sinaplint.yml` corre em cada PR: gera `.sinaplint/report.json` **inline** (Python no próprio job), envia para o SinapLint e comenta no PR.
 
 Para desenvolvimento local podes continuar a usar **`analyze.sh`** + **`report.py`** (ver secção Local).
+
+O workflow **`.github/workflows/workflow.yml`** corre **Continuous Integration** em **`web/`** (React com `react-scripts`: `npm run build` com `CI=false` e `npm run test --watchAll=false`). Ver `web/README.md`.

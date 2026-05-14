@@ -1,4 +1,8 @@
 /backend/src/node_modules
 
+# React (CI em web/)
+/web/node_modules
+/web/build
+
 # SinapLint — relatório gerado localmente
 .sinaplint/report.json

@@ -4,9 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon ./bin/server.js",
-    "build": "CI=false node -e \"console.log('build ok');\"",
-    "test": "node -e \"console.log('test ok'); process.exit(0);\""
+    "start": "nodemon ./bin/server.js"
   },
   "keywords": [],
   "author": "",
