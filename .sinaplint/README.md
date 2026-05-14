@@ -3,6 +3,24 @@
 - **`analyze.sh`** — passo de análise leve no repositório (stub).
 - **`report.py`** — gera `report.json` com o schema esperado pelo SaaS (`POST …/ci-report/`).
 
+## Monitorização em cada PR
+
+O SinapLint **não faz polling** ao GitHub: o repositório é analisado quando o **CI envia o JSON** para `ci-report`. Este repositório usa o workflow em `.github/workflows/sinaplint.yml`, disparado em **`pull_request`** (opened, synchronize, reopened).
+
+Para o ingest casar com o projeto certo no dashboard:
+
+- O campo **`repo`** no JSON tem de ser **`lbulegon/monoambiente`** (o mesmo que `github.repository` no Actions).
+- Inclui sempre **`pr_number`** (número do PR no GitHub) para o painel **agrupar execuções** no registo por pull request.
+
+### Secrets no GitHub (Settings → Secrets and variables → Actions)
+
+| Secret | Valor |
+|--------|--------|
+| `SINAPLINT_CI_URL` | URL completa do endpoint (ex.: `https://…railway.app/api/sinaplint/saas/v1/ci-report/` ou `…/api/ci-report/`) |
+| `SINAPLINT_API_KEY` | O teu **X-API-KEY** (UUID do tenant no SinapLint) |
+
+Na **landing** SinapLint: define `NEXT_PUBLIC_SINAPLINT_API_URL` com o URL público do backend (ex. Railway) para o painel do projeto mostrar a URL de ingestão pronta a copiar.
+
 ## Local
 
 ```bash
@@ -16,4 +34,4 @@ cat .sinaplint/report.json
 
 ## GitHub Actions
 
-O workflow `.github/workflows/sinaplint.yml` corre em cada PR e envia o JSON para o SinapLint (secrets `SINAPLINT_CI_URL` e `SINAPLINT_API_KEY`).
+O workflow `.github/workflows/sinaplint.yml` corre em cada PR, gera `report.json` via `report.py` e faz `curl` para o SinapLint com os secrets acima.

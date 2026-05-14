@@ -1,6 +1,16 @@
-# Secrets no repositório GitHub:
-#   SINAPLINT_CI_URL  → URL completa POST (ex.: …/api/sinaplint/saas/v1/ci-report/ ou …/api/ci-report/)
-#   SINAPLINT_API_KEY → UUID do tenant (header X-API-KEY)
+# SinapLint — monitorização em cada PR (sem polling ao GitHub)
+#
+# O SaaS só ingere quando este workflow envia POST para ci-report. O campo `repo`
+# no JSON (gerado por .sinaplint/report.py) tem de ser exatamente `owner/repo` deste
+# repositório (ex.: lbulegon/monoambiente) para casar com o projeto no dashboard.
+# Inclui sempre `pr_number` para o painel agrupar no "Registo por pull request".
+#
+# Secrets neste repositório GitHub:
+#   SINAPLINT_CI_URL  → URL completa do endpoint (ex.: …/api/sinaplint/saas/v1/ci-report/ ou …/api/ci-report/)
+#   SINAPLINT_API_KEY → UUID do tenant (header X-API-KEY; copiar do painel SinapLint)
+#
+# Na landing SinapLint: definir NEXT_PUBLIC_SINAPLINT_API_URL para o URL público do
+# backend (Railway), para o painel mostrar a URL de ingestão completa.
 
 name: SinapLint PR Analysis
 
