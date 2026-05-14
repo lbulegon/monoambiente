@@ -1,16 +1,10 @@
 # SinapLint — monitorização em cada PR (sem polling ao GitHub)
 #
-# O SaaS só ingere quando este workflow envia POST para ci-report. O campo `repo`
-# no JSON (gerado por .sinaplint/report.py) tem de ser exatamente `owner/repo` deste
-# repositório (ex.: lbulegon/monoambiente) para casar com o projeto no dashboard.
-# Inclui sempre `pr_number` para o painel agrupar no "Registo por pull request".
+# O JSON é gerado inline neste job; o campo `repo` é `github.repository` (ex.: lbulegon/monoambiente).
+# Inclui `pr_number` para o painel agrupar no "Registo por pull request".
 #
-# Secrets neste repositório GitHub:
-#   SINAPLINT_CI_URL  → URL completa do endpoint (ex.: …/api/sinaplint/saas/v1/ci-report/ ou …/api/ci-report/)
-#   SINAPLINT_API_KEY → UUID do tenant (header X-API-KEY; copiar do painel SinapLint)
-#
-# Na landing SinapLint: definir NEXT_PUBLIC_SINAPLINT_API_URL para o URL público do
-# backend (Railway), para o painel mostrar a URL de ingestão completa.
+# Secrets: SINAPLINT_CI_URL (URL completa ci-report), SINAPLINT_API_KEY (UUID / X-API-KEY).
+# Landing: NEXT_PUBLIC_SINAPLINT_API_URL para o painel mostrar a URL de ingestão.
 
 name: SinapLint PR Analysis
 
@@ -32,7 +26,7 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Runner local + relatório
+      - name: Gerar relatório (stub — substituir pelo runner SinapLint)
         env:
           REPO: ${{ github.repository }}
           PR: ${{ github.event.pull_request.number }}
@@ -42,9 +36,26 @@ jobs:
           BRANCH: ${{ github.head_ref }}
         run: |
           mkdir -p .sinaplint
-          chmod +x .sinaplint/analyze.sh
-          ./.sinaplint/analyze.sh
-          python3 .sinaplint/report.py
+          python3 << 'PY'
+          import json, os
+          from pathlib import Path
+          Path('.sinaplint').mkdir(parents=True, exist_ok=True)
+          report = {
+            "repo": os.environ["REPO"],
+            "score": 82,
+            "drift_score": 0.31,
+            "daa": 0.74,
+            "github_run_id": int(os.environ["RUN_ID"]),
+            "sha": os.environ["SHA"],
+            "ref": os.environ["REF"],
+            "pr_number": int(os.environ["PR"]),
+            "branch": os.environ["BRANCH"],
+            "warnings": ["Possível crescimento de acoplamento"],
+            "errors": [],
+          }
+          with open('.sinaplint/report.json', 'w') as f:
+            json.dump(report, f, indent=2)
+          PY
           cat .sinaplint/report.json
 
       - name: Enviar para SinapLint

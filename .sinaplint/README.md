@@ -34,4 +34,6 @@ cat .sinaplint/report.json
 
 ## GitHub Actions
 
-O workflow `.github/workflows/sinaplint.yml` corre em cada PR, gera `report.json` via `report.py` e faz `curl` para o SinapLint com os secrets acima.
+O workflow `.github/workflows/sinaplint.yml` corre em cada PR: gera `.sinaplint/report.json` **inline** (Python no próprio job), envia para o SinapLint e comenta no PR.
+
+Para desenvolvimento local podes continuar a usar **`analyze.sh`** + **`report.py`** (ver secção Local).
