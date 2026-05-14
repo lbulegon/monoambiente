@@ -1,0 +1,70 @@
+# Secrets no repositório GitHub:
+#   SINAPLINT_CI_URL  → URL completa POST (ex.: …/api/sinaplint/saas/v1/ci-report/ ou …/api/ci-report/)
+#   SINAPLINT_API_KEY → UUID do tenant (header X-API-KEY)
+
+name: SinapLint PR Analysis
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  sinaplint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Runner local + relatório
+        env:
+          REPO: ${{ github.repository }}
+          PR: ${{ github.event.pull_request.number }}
+          RUN_ID: ${{ github.run_id }}
+          SHA: ${{ github.event.pull_request.head.sha }}
+          REF: ${{ github.ref }}
+          BRANCH: ${{ github.head_ref }}
+        run: |
+          mkdir -p .sinaplint
+          chmod +x .sinaplint/analyze.sh
+          ./.sinaplint/analyze.sh
+          python3 .sinaplint/report.py
+          cat .sinaplint/report.json
+
+      - name: Enviar para SinapLint
+        env:
+          SINAPLINT_URL: ${{ secrets.SINAPLINT_CI_URL }}
+          SINAPLINT_KEY: ${{ secrets.SINAPLINT_API_KEY }}
+        run: |
+          curl -sfS -X POST "$SINAPLINT_URL" \
+            -H "X-API-KEY: $SINAPLINT_KEY" \
+            -H "Content-Type: application/json" \
+            -d @.sinaplint/report.json
+
+      - name: Comentar no PR
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const report = JSON.parse(fs.readFileSync('.sinaplint/report.json', 'utf8'));
+            const warn = (report.warnings || []).map((w) => '- ' + w).join('\n');
+            const body =
+              '## SinapLint\n\n' +
+              '**Score:** ' + report.score + '/100\n' +
+              '**Drift (stub):** ' + report.drift_score + '\n' +
+              '**DAA (stub):** ' + report.daa + '\n\n' +
+              '**Warnings:**\n' +
+              (warn || '-') +
+              '\n\n_Relatório ingerido no dashboard SinapLint._';
+            await github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body,
+            });
