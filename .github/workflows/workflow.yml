@@ -1,0 +1,29 @@
+# Continuous Integration — push e pull_request
+# O job corre em node-str/ (ver defaults.run.working-directory).
+
+name: Continuous Integration
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  continuous-integration:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: node-str
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "16.x"
+
+      - name: Install, build e test
+        run: |
+          npm install
+          npm run build
+          npm run test
