@@ -1,5 +1,6 @@
 # Continuous Integration — push e pull_request
 # App React em web/ (react-scripts: build com CI=false, test sem watch).
+# Para CI na tua VPS: ver workflow-self-hosted.yml + PROMPT-runner-self-hosted-vps.md
 
 name: Continuous Integration
 

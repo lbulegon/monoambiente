@@ -14,6 +14,8 @@ npm run build
 npm run test
 ```
 
-O GitHub Actions em `.github/workflows/workflow.yml` executa os mesmos comandos em `ubuntu-latest` com Node 24.x.
+O GitHub Actions em `.github/workflows/workflow.yml` executa os mesmos comandos em `ubuntu-latest` com Node 24.x (VM gerida pelo GitHub).
+
+Para **CI na tua VPS** (self-hosted runner), existe **`.github/workflows/workflow-self-hosted.yml`**: `runs-on: self-hosted`, passo **Verificar Sinaplint** (`ls -la /opt/sinaplint`) antes do build, e os mesmos comandos npm em `web/`. Pré-requisito: [adicionar self-hosted runner](https://docs.github.com/en/actions/hosting-your-own-runners/managing-self-hosted-runners/about-self-hosted-runners) ao repositório. Prompt reutilizável: `.github/PROMPT-runner-self-hosted-vps.md`.
 
 

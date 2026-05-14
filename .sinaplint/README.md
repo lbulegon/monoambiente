@@ -38,4 +38,6 @@ O workflow `.github/workflows/sinaplint.yml` corre em cada PR: gera `.sinaplint/
 
 Para desenvolvimento local podes continuar a usar **`analyze.sh`** + **`report.py`** (ver secção Local).
 
-O workflow **`.github/workflows/workflow.yml`** corre **Continuous Integration** em **`web/`** (React com `react-scripts`: `npm run build` com `CI=false` e `npm run test --watchAll=false`). Ver `web/README.md`.
+O workflow **`.github/workflows/workflow.yml`** corre **Continuous Integration** em **`web/`** em `ubuntu-latest` (React com `react-scripts`). Ver `web/README.md`.
+
+O **`.github/workflows/workflow-self-hosted.yml`** corre o mesmo npm em **`web/`** na **tua VPS** (`runs-on: self-hosted`), com passo `ls -la /opt/sinaplint` antes do build. Prompt: `.github/PROMPT-runner-self-hosted-vps.md`.
