@@ -1,41 +1,25 @@
-# CI na tua VPS (GitHub Actions — self-hosted runner)
+# SinapLint — despacho para Execution Plane na VPS (self-hosted)
 #
-# Pré-requisito: em GitHub → Settings → Actions → Runners → New self-hosted runner,
-# segue os comandos na VPS Ubuntu para instalar o agente e associar a ESTE repositório.
+# O GitHub Actions NÃO corre npm build/test aqui: apenas invoca o structural-runner
+# instalado em /opt/sinaplint (ver SinapLint: infrastructure/execution-plane-v1/).
 #
-# Este job NÃO usa ubuntu-latest do GitHub: corre só onde o runner estiver online.
-# Se quiseres evitar jobs duplicados com workflow.yml (hosted), desactiva um dos dois
-# em Settings → Actions → General, ou remove o ficheiro que não quiseres.
-#
-# O passo "Verificar Sinaplint" regista no log o estado de /opt/sinaplint antes do build
-# (não altera esse diretório; só observação).
+# Pré-requisitos na VPS:
+#   - Runner GitHub self-hosted registado neste repositório
+#   - sudo bash bootstrap-vps.sh (a partir do repositório SinapLint)
+#   - git disponível no PATH do utilizador do runner
 
-name: Continuous Integration (VPS self-hosted)
+name: SinapLint VPS Runner
 
 on:
-  push:
   pull_request:
+    types: [opened, synchronize, reopened]
 
 jobs:
-  continuous-integration-vps:
+  sinaplint:
     runs-on: self-hosted
-    defaults:
-      run:
-        working-directory: web
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Verificar Sinaplint
-        run: ls -la /opt/sinaplint
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: "24.x"
-
-      - name: Run Install Build and Test
+      - name: Execute Structural Runner
         run: |
-          npm install
-          npm run build
-          npm run test
+          /opt/sinaplint/runners/structural-runner/run.sh \
+            "https://github.com/${{ github.repository }}.git" \
+            "${{ github.head_ref }}"
