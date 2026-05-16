@@ -7,6 +7,9 @@
 #   - Runner GitHub self-hosted registado neste repositório
 #   - sudo bash bootstrap-vps.sh (a partir do repositório SinapLint)
 #   - git disponível no PATH do utilizador do runner
+#
+# Repos privados (Fase 1 — credencial fora do cadastro SaaS):
+#   https://github.com/lbulegon/sinaplint/blob/main/infrastructure/execution-plane-v1/docs/github-credentials-roadmap.md
 
 name: SinapLint VPS Runner
 
@@ -19,7 +22,9 @@ jobs:
     runs-on: self-hosted
     steps:
       - name: Execute Structural Runner
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           /opt/sinaplint/runners/structural-runner/run.sh \
-            "https://github.com/${{ github.repository }}.git" \
+            "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git" \
             "${{ github.head_ref }}"
